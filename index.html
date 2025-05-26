@@ -14,318 +14,208 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
   <style>
-    /* -------------------- Theme Variables -------------------- */
+    /* Theme Variables */
     :root {
-      --bg-color: #F5F4EF;
-      --text-color: #1F1F1F;
-      --accent-color: #C08950;
-      --hero-image: url('YOUR_HERO_IMAGE_URL');
-      --max-width: 1200px;
-      --spacing: 2rem;
+      --bg: #F5F4EF;
+      --text: #1F1F1F;
+      --accent: #C08950;
+      --hero-img: url('YOUR_HERO_IMAGE_URL');
+      --max-w: 1200px;
+      --gap: 2rem;
     }
 
-    /* -------------------- Reset & Base -------------------- */
+    /* Reset & Base */
     *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      margin: 0; padding: 0; box-sizing: border-box;
     }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      background: var(--bg);
+      color: var(--text);
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
-    h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-      cursor: pointer;
-    }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    a { text-decoration: none; color: inherit; }
 
-    /* -------------------- Container & Sections -------------------- */
-    .wrap {
-      width: 90%;
-      max-width: var(--max-width);
+    /* Container & Sections */
+    .container {
+      width: 90%; max-width: var(--max-w);
       margin: 0 auto;
-      padding: 0 var(--spacing);
+      padding: 0 var(--gap);
     }
-    .section {
-      padding: calc(var(--spacing) * 4) 0;
-    }
+    .section-block { padding: calc(var(--gap)*4) 0; }
 
-    /* -------------------- Buttons -------------------- */
-    .btn {
+    /* Buttons */
+    .button {
       display: inline-block;
-      padding: 0.75rem 1.5rem;
-      border: 2px solid var(--accent-color);
-      border-radius: 0.5rem;
-      color: var(--accent-color);
+      padding: .75rem 1.5rem;
+      border: 2px solid var(--accent);
+      border-radius: .5rem;
+      color: var(--accent);
       font-weight: 500;
-      transition: background 0.3s;
+      transition: background .3s;
     }
-    .btn:hover {
-      background-color: rgba(192, 137, 80, 0.1);
-    }
+    .button:hover { background: rgba(192,137,80,0.1); }
+    .back-button { @apply button; }
 
-    /* -------------------- Hero -------------------- */
+    /* Hero */
     #hero {
-      position: relative;
-      height: 100vh;
-      background: var(--hero-image) center/cover no-repeat;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative; height: 100vh;
+      background: var(--hero-img) center/cover no-repeat;
+      display: flex; align-items: center; justify-content: center;
       text-align: center;
     }
-    #hero::before,
-    #hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
+    #hero::before, #hero::after {
+      content:''; position:absolute; inset:0;
     }
-    #hero::before {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    #hero::after {
-      background: linear-gradient(to bottom, transparent, var(--bg-color));
-    }
-    .hero-content > * + * {
-      margin-top: var(--spacing);
-    }
-    .hero-title {
-      font-size: 4rem;
-      color: white;
-    }
-    .hero-img {
-      width: 14rem;
-      height: 14rem;
-      border: 4px solid white;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .hero-sub {
-      font-size: 1.25rem;
-      color: white;
-    }
+    #hero::before { background: rgba(0,0,0,.5); }
+    #hero::after { background: linear-gradient(to bottom, transparent, var(--bg)); }
+    .hero-content > * + * { margin-top: var(--gap); }
+    .hero-title { font-size: 4rem; color: #fff; }
+    .hero-img { width: 14rem; height:14rem; border:4px solid #fff; border-radius:50%; object-fit:cover; }
+    .hero-sub { font-size:1.25rem; color:#fff; }
 
-    /* -------------------- About -------------------- */
-    #about {
-      background-color: var(--bg-color);
-    }
-    .about-grid {
-      display: grid;
-      gap: var(--spacing);
-    }
-    @media (min-width: 768px) {
-      .about-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    .about-img {
-      width: 100%;
-      border-radius: 1rem;
-      object-fit: cover;
-    }
-    .about-text {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-    .about-text.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .about-title {
-      font-size: 3rem;
-      margin-bottom: var(--spacing);
-    }
-    .about-paragraph {
-      font-size: 1.125rem;
-      line-height: 1.6;
-    }
+    /* About */
+    #about { background: var(--bg); }
+    .about-layout { display:grid; gap:var(--gap); }
+    @media(min-width:768px){ .about-layout { grid-template-columns:1fr 1fr; } }
+    .about-image { width:100%; border-radius:1rem; object-fit:cover; }
+    .about-text { opacity:0; transform:translateY(30px); transition:opacity 1s ease, transform 1s ease; }
+    .about-text.show { opacity:1; transform:translateY(0); }
+    .about-title { font-size:3rem; margin-bottom:var(--gap); }
+    .about-paragraph { font-size:1.125rem; line-height:1.6; }
 
-    /* -------------------- Navigation -------------------- */
-    #nav {
-      text-align: center;
-    }
-    .nav-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing);
-      max-width: 20rem;
-      margin: 0 auto;
-    }
-    .nav-link {
-      padding: 1rem;
-      border: 2px solid transparent;
-      border-radius: 0.75rem;
-      transition: border-color 0.3s;
-    }
-    .nav-link:hover {
-      border-color: var(--accent-color);
-    }
-    .nav-link h3 {
-      font-size: 1.5rem;
-    }
+    /* Navigation */
+    #nav { text-align:center; }
+    .nav-items { display:flex; flex-direction:column; gap:var(--gap); max-width:20rem; margin:0 auto; }
+    .nav-item { padding:1rem; border:2px solid transparent; border-radius:.75rem; transition:border-color .3s; }
+    .nav-item:hover { border-color:var(--accent); }
+    .nav-item h3 { font-size:1.5rem; }
 
-    /* -------------------- Details -------------------- */
-    .detail {
-      display: none;
-    }
-    .detail.active {
-      display: block;
-    }
-    .detail-head {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing);
-    }
-    .detail-line {
-      width: 0.5rem;
-      background-color: var(--accent-color);
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .detail-body {
-      flex: 1;
-    }
-    .detail-title {
-      font-size: 2.5rem;
-      margin-bottom: var(--spacing);
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    /* Details */
+    .detail-section { display:none; }
+    .detail-section.active { display:block; }
+    .detail-header { display:flex; align-items:flex-start; gap:var(--gap); }
+    .detail-marker { width:.5rem; background:var(--accent); animation:pulse 2s ease-in-out infinite; }
+    .detail-content { flex:1; }
+    .detail-title { font-size:2.5rem; margin-bottom:var(--gap); }
+    @keyframes pulse { 0%,100%{opacity:1;}50%{opacity:.4;} }
   </style>
 </head>
 <body>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
+      AOS.init({ once:true, duration:800, easing:'ease-in-out' });
 
-      const sections = ['hero','about','nav','education','work','portfolio','life'];
-      const defaultVisible = ['hero','about','nav'];
-      defaultVisible.forEach(id => document.getElementById(id).classList.add('active'));
+      const ids = ['hero','about','nav','education','work','portfolio','life'];
+      const visible = ['hero','about','nav'];
+      ids.forEach(id => document.getElementById(id).classList.toggle('active', visible.includes(id)));
 
-      document.querySelectorAll('.nav-link').forEach(link => {
+      document.querySelectorAll('.nav-item').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
-          const target = link.dataset.target;
-          sections.forEach(id => {
-            document.getElementById(id).classList.toggle('active', id === target);
-          });
-          document.getElementById(target).scrollIntoView({ behavior: 'smooth' });
+          const tgt = link.dataset.target;
+          ids.forEach(id => document.getElementById(id).classList.toggle('active', id===tgt));
+          document.getElementById(tgt).scrollIntoView({behavior:'smooth'});
         });
       });
 
-      document.querySelectorAll('.btn-back').forEach(btn => {
+      document.querySelectorAll('.back-button').forEach(btn => {
         btn.addEventListener('click', e => {
           e.preventDefault();
-          sections.forEach(id => {
-            document.getElementById(id).classList.toggle('active', defaultVisible.includes(id));
-          });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          ids.forEach(id => document.getElementById(id).classList.toggle('active', visible.includes(id)));
+          window.scrollTo({ top:0, behavior:'smooth' });
         });
       });
 
-      new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          document.querySelector('.about-text').classList.add('show');
-        }
-      }, { threshold: 0.3 }).observe(document.querySelector('.about-text'));
+      new IntersectionObserver(([entry])=>{
+        if(entry.isIntersecting) document.querySelector('.about-text').classList.add('show');
+      },{threshold:0.3}).observe(document.querySelector('.about-text'));
     });
   </script>
 
   <!-- HERO -->
-  <section id="hero" class="section">
-    <div class="hero-content wrap" data-aos="fade-up">
+  <section id="hero" class="section-block">
+    <div class="hero-content container" data-aos="fade-up">
       <h1 class="hero-title" data-aos="fade-down">Hi! I'm Michelle Shi.</h1>
       <img src="YOUR_PROFILE_IMAGE_URL" alt="Portrait" class="hero-img" data-aos="zoom-in" data-aos-delay="300" />
-      <p class="hero-sub" data-aos="fade-up" data-aos-delay="600">
-        Brief one–sentence headline that sums up who you are and what you do.
-      </p>
+      <p class="hero-sub" data-aos="fade-up" data-aos-delay="600">Brief one–sentence headline that sums up who you are and what you do.</p>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="wrap about-grid">
-      <img src="YOUR_INTRO_IMAGE_URL" alt="About me" class="about-img" data-aos="fade-right" />
+  <section id="about" class="section-block">
+    <div class="container about-layout">
+      <img src="YOUR_INTRO_IMAGE_URL" alt="About me" class="about-image" data-aos="fade-right" />
       <div class="about-text">
         <h2 class="about-title" data-aos="fade-left">About Me</h2>
-        <p class="about-paragraph" data-aos="fade-left" data-aos-delay="200">
-          <!-- TODO: Your self-introduction here -->
-        </p>
+        <p class="about-paragraph" data-aos="fade-left" data-aos-delay="200"><!-- TODO: Your self-introduction here --></p>
       </div>
     </div>
   </section>
 
   <!-- NAVIGATION -->
-  <nav id="nav" class="section">
-    <div class="wrap nav-list" data-aos="fade-up">
-      <a href="#education" class="nav-link" data-target="education" data-aos="fade-left">
+  <nav id="nav" class="section-block">
+    <div class="container nav-items" data-aos="fade-up">
+      <a href="#education" class="nav-item" data-target="education" data-aos="fade-left">
         <h3>Education Background</h3>
       </a>
-      <a href="#work" class="nav-link" data-target="work" data-aos="fade-left" data-aos-delay="200">
+      <a href="#work" class="nav-item" data-target="work" data-aos="fade-left" data-aos-delay="200">
         <h3>Work Experience</h3>
       </a>
-      <a href="#portfolio" class="nav-link" data-target="portfolio" data-aos="fade-left" data-aos-delay="400">
+      <a href="#portfolio" class="nav-item" data-target="portfolio" data-aos="fade-left" data-aos-delay="400">
         <h3>My Portfolios</h3>
       </a>
-      <a href="#life" class="nav-link" data-target="life" data-aos="fade-left" data-aos-delay="600">
+      <a href="#life" class="nav-item" data-target="life" data-aos="fade-left" data-aos-delay="600">
         <h3>Outside of Work</h3>
       </a>
     </div>
   </nav>
 
-  <!-- DETAIL SECTIONS -->
-  <section id="education" class="section detail" data-aos="fade-up">
-    <div class="wrap detail-head">
-      <div class="detail-line"></div>
-      <div class="detail-body">
+  <!-- DETAILS -->
+  <section id="education" class="section-block detail-section" data-aos="fade-up">
+    <div class="container detail-header">
+      <div class="detail-marker"></div>
+      <div class="detail-content">
         <h2 class="detail-title">Education Background</h2>
         <!-- TODO: Milestones with images -->
       </div>
-      <a href="#hero" class="btn btn-back">Back</a>
+      <a href="#hero" class="back-button">Back</a>
     </div>
   </section>
 
-  <section id="work" class="section detail" data-aos="fade-up">
-    <div class="wrap detail-head">
-      <div class="detail-line"></div>
-      <div class="detail-body">
+  <section id="work" class="section-block detail-section" data-aos="fade-up">
+    <div class="container detail-header">
+      <div class="detail-marker"></div>
+      <div class="detail-content">
         <h2 class="detail-title">Work Experience</h2>
         <!-- TODO: Experience with images -->
       </div>
-      <a href="#hero" class="btn btn-back">Back</a>
+      <a href="#hero" class="back-button">Back</a>
     </div>
   </section>
 
-  <section id="portfolio" class="section detail" data-aos="fade-up">
-    <div class="wrap detail-head">
-      <div class="detail-line"></div>
-      <div class="detail-body">
+  <section id="portfolio" class="section-block detail-section" data-aos="fade-up">
+    <div class="container detail-header">
+      <div class="detail-marker"></div>
+      <div class="detail-content">
         <h2 class="detail-title">My Portfolios</h2>
         <!-- TODO: Projects with images -->
       </div>
-      <a href="#hero" class="btn btn-back">Back</a>
+      <a href="#hero" class="back-button">Back</a>
     </div>
   </section>
 
-  <section id="life" class="section detail" data-aos="fade-up">
-    <div class="wrap detail-head">
-      <div class="detail-line"></div>
-      <div class="detail-body">
+  <section id="life" class="section-block detail-section" data-aos="fade-up">
+    <div class="container detail-header">
+      <div class="detail-marker"></div>
+      <div class="detail-content">
         <h2 class="detail-title">Outside of Work</h2>
         <!-- TODO: Hobbies with images -->
       </div>
-      <a href="#hero" class="btn btn-back">Back</a>
+      <a href="#hero" class="back-button">Back</a>
     </div>
   </section>
 </body>
