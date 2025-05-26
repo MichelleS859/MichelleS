@@ -1,346 +1,99 @@
-import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useMemo } from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name | Portfolio</title>
 
-/**
- * PERSONAL PORTFOLIO – React + Tailwind + Framer‑Motion + React‑Router v6
- * ------------------------------------------------------------------------
- * • Uses HashRouter so previews work out‑of‑the‑box (routes live under #/ ).
- * • Replace all <!-- IMAGE_URL --> placeholders with real assets.
- * • Add Google fonts in <head> (Playfair Display & Inter) as noted below.
- *
- *   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
- */
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
 
-/* -------------------------------------------------------------------------- */
-/* WORD‑BY‑WORD REVEAL COMPONENT                                              */
-/* -------------------------------------------------------------------------- */
-function WordReveal({ text, as: Tag = "span", className = "" }) {
-  const words = useMemo(() => text.split(" "), [text]);
-  return (
-    <Tag className={`${className} inline-block overflow-hidden`}>
-      {words.map((w, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "100%", opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.05 * i, duration: 0.55, ease: "easeOut" }}
-          className="inline-block mr-2"
-        >
-          {w}
-        </motion.span>
-      ))}
-    </Tag>
-  );
-}
+  <!-- TailwindCSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-/* -------------------------------------------------------------------------- */
-/* SHARED PAGE WRAPPER                                                        */
-/* -------------------------------------------------------------------------- */
-function PageWrapper({ title, children }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="min-h-screen bg-[#F5F4EF] pt-28 pb-16 px-6 md:px-12"
-    >
-      <header className="mb-16 text-center">
-        <WordReveal
-          text={title}
-          as="h2"
-          className="font-serif text-4xl md:text-5xl"
-        />
-      </header>
-      <div className="max-w-6xl mx-auto">{children}</div>
-    </motion.div>
-  );
-}
+  <!-- AOS Scroll Animations -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-/* -------------------------------------------------------------------------- */
-/* HOME / LANDING PAGE                                                        */
-/* -------------------------------------------------------------------------- */
-function Home() {
-  return (
-    <div className="bg-[#F5F4EF] text-[#1F1F1F] font-sans leading-relaxed">
-      {/* HERO */}
-      <section className="relative h-[95vh] flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-        <img
-          src="<!-- HERO_BACKGROUND_IMAGE_URL -->"
-          alt="background"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#F5F4EF]/60 to-[#F5F4EF]" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body class="bg-[#F5F4EF] text-[#1F1F1F]">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AOS.init({ once: true, duration: 800 });
+    });
+  </script>
 
-        <div className="relative z-10 max-w-4xl space-y-8">
-          <WordReveal
-            text="Your Name Here"
-            as="h1"
-            className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-wide"
-          />
+  <!-- HERO SECTION -->
+  <section id="hero" class="relative h-screen flex items-center justify-center text-center"
+    style="background-image: url('<!-- HERO_BACKGROUND_IMAGE_URL -->'); background-size: cover; background-position: center;">
+    <!-- Dark overlay to dim background -->
+    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+    <!-- Gentle gradient to blend into page -->
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#F5F4EF]/20 to-[#F5F4EF]"></div>
 
-          <motion.img
-            initial={{ scale: 0.7, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            src="</IMG_6325.JPG>"
-            alt="Portrait of Your Name"
-            className="mx-auto w-40 h-40 md:w-52 md:h-52 rounded-full object-cover border-4 border-white shadow-xl"
-          />
+    <div class="relative z-10 space-y-6 px-4">
+      <h1 class="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif" data-aos="fade-up">
+        Your Name Here
+      </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="max-w-2xl mx-auto text-lg md:text-xl"
-          >
-            Brief one–sentence headline that sums up who you are and what you do.
-          </motion.p>
-        </div>
-      </section>
+      <img src="</IMG_6325.JPG>" alt="Portrait"
+        class="mx-auto w-40 h-40 md:w-52 md:h-52 rounded-full border-4 border-white shadow-lg"
+        data-aos="zoom-in" data-aos-delay="300" />
 
-      {/* NAV */}
-      <section className="py-24 px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-          {[
-            { label: "Education\nBackground", path: "/education" },
-            { label: "Work\nExperience", path: "/work" },
-            { label: "Portfolios", path: "/portfolio" },
-            { label: "Outside\nof Work", path: "/life" },
-          ].map((item, idx) => (
-            <Link to={item.path} key={idx}>
-              <motion.div
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.97 }}
-                className="cursor-pointer text-center bg-white/70 backdrop-blur rounded-2xl p-12 shadow-lg hover:shadow-xl transition"
-              >
-                <p className="whitespace-pre-line font-semibold text-2xl leading-snug">
-                  {item.label}
-                </p>
-                <span className="text-sm tracking-wide text-[#C08950] mt-4 inline-block">
-                  click to explore →
-                </span>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <p class="text-white text-lg md:text-xl" data-aos="fade-up" data-aos-delay="600">
+        Brief one–sentence headline that sums up who you are and what you do.
+      </p>
     </div>
-  );
-}
+  </section>
 
-/* -------------------------------------------------------------------------- */
-/* EDUCATION PAGE                                                             */
-/* -------------------------------------------------------------------------- */
-function EducationPage() {
-  const milestones = [
-    {
-      title: "BSc – Nanjing Agricultural University",
-      desc: "TODO: add details here…",
-      img: "<!-- NAU_IMAGE_URL -->",
-    },
-    {
-      title: "Top‑10 Finalist – International Innovation & Entrepreneurship Competition",
-      desc: "TODO: add details here…",
-      img: "<!-- COMPETITION_IMAGE_URL -->",
-    },
-    {
-      title: "Cambridge University Winter Programme (Distinction)",
-      desc: "TODO: add details here…",
-      img: "<!-- CAMBRIDGE_IMAGE_URL -->",
-    },
-    {
-      title: "UCL – MSc (Distinction)",
-      desc: "TODO: add details here…",
-      img: "<!-- UCL_IMAGE_URL -->",
-    },
-  ];
-
-  return (
-    <PageWrapper title="Education Background">
-      <div className="space-y-16">
-        {milestones.map((m, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 * i }}
-            className="grid md:grid-cols-3 gap-8 items-center"
-          >
-            <div className="rounded-xl bg-gray-200 h-52 md:h-64 w-full overflow-hidden">
-              <img src={m.img} alt="placeholder" className="w-full h-full object-cover" />
-            </div>
-            <div className="md:col-span-2">
-              <h3 className="font-serif text-2xl md:text-3xl mb-4">{m.title}</h3>
-              <p className="text-base md:text-lg text-gray-700">{m.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+  <!-- SELF-INTRO SECTION -->
+  <section id="about" class="py-20 px-6 md:px-12 bg-[#F5F4EF]">
+    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <!-- Self-image placeholder -->
+      <div class="rounded-3xl overflow-hidden shadow-md bg-gray-200 h-72 md:h-96">
+        <img src="<!-- SELF_INTRO_IMAGE_URL -->" alt="About me" class="w-full h-full object-cover" />
       </div>
-    </PageWrapper>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* WORK PAGE                                                                  */
-/* -------------------------------------------------------------------------- */
-function WorkPage() {
-  const jobs = [
-    {
-      title: "Media Insight Analyst – Ebiquity (Current)",
-      desc: "TODO: add details here…",
-      img: "<!-- EBIQUITY_IMAGE_URL -->",
-    },
-    {
-      title: "Freelance Writer – Medify (Part‑time)",
-      desc: "TODO: add details here…",
-      img: "<!-- MEDIFY_IMAGE_URL -->",
-    },
-  ];
-
-  return (
-    <PageWrapper title="Work Experience">
-      <div className="space-y-16">
-        {jobs.map((job, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 * i }}
-            className="grid md:grid-cols-3 gap-8 items-center"
-          >
-            <div className="rounded-xl bg-gray-200 h-56 md:h-72 w-full overflow-hidden">
-              <img src={job.img} alt="placeholder" className="w-full h-full object-cover" />
-            </div>
-            <div className="md:col-span-2">
-              <h3 className="font-serif text-2xl md:text-3xl mb-4">{job.title}</h3>
-              <p className="text-base md:text-lg text-gray-700">{job.desc}</p>
-            </div>
-          </motion.div>
-        ))}
+      <!-- Intro text -->
+      <div data-aos="fade-left">
+        <h2 class="text-4xl font-serif mb-4">About Me</h2>
+        <p class="text-lg md:text-xl text-gray-800 leading-relaxed">
+          <!-- TODO: Place your self-introduction paragraph here -->
+        </p>
       </div>
-    </PageWrapper>
-  );
-}
+    </div>
+  </section>
 
-/* -------------------------------------------------------------------------- */
-/* PORTFOLIO PROJECTS PAGE                                                    */
-/* -------------------------------------------------------------------------- */
-function PortfolioPage() {
-  const projects = [
-    {
-      id: 1,
-      title: "Trip.com Customer Churn Analysis",
-      img: "<!-- PROJECT1_IMAGE_URL -->",
-      link: "#", // update later
-    },
-    {
-      id: 2,
-      title: "Sales Forecast Practice Project",
-      img: "<!-- PROJECT2_IMAGE_URL -->",
-      link: "#",
-    },
-    {
-      id: 3,
-      title: "Digital Marketing Project",
-      img: "<!-- PROJECT3_IMAGE_URL -->",
-      link: "#",
-    },
-  ];
+  <!-- VERTICAL NAVIGATION CARDS -->
+  <section id="navigation" class="py-20 px-6 md:px-12">
+    <div class="max-w-md mx-auto flex flex-col space-y-6">
+      <a href="#education" class="block bg-white/70 backdrop-blur rounded-2xl p-6 shadow-lg hover:shadow-xl transition" data-aos="fade-right">
+        <h3 class="text-2xl font-semibold whitespace-pre-line">Education
+        Background</h3>
+        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      </a>
+      <a href="#work" class="block bg-white/70 backdrop-blur rounded-2xl p-6 shadow-lg hover:shadow-xl transition" data-aos="fade-right" data-aos-delay="100">
+        <h3 class="text-2xl font-semibold whitespace-pre-line">Work
+        Experience</h3>
+        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      </a>
+      <a href="#portfolio" class="block bg-white/70 backdrop-blur rounded-2xl p-6 shadow-lg hover:shadow-xl transition" data-aos="fade-right" data-aos-delay="200">
+        <h3 class="text-2xl font-semibold whitespace-pre-line">Portfolios</h3>
+        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      </a>
+      <a href="#life" class="block bg-white/70 backdrop-blur rounded-2xl p-6 shadow-lg hover:shadow-xl transition" data-aos="fade-right" data-aos-delay="300">
+        <h3 class="text-2xl font-semibold whitespace-pre-line">Outside
+        of Work</h3>
+        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      </a>
+    </div>
+  </section>
 
-  return (
-    <PageWrapper title="Portfolios">
-      <div className="grid md:grid-cols-3 gap-10">
-        {projects.map((p, i) => (
-          <motion.a
-            href={p.link}
-            key={p.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 * i }}
-            className="block rounded-2xl overflow-hidden shadow-lg hover:shadow-xl group"
-          >
-            <div className="h-60 bg-gray-200 overflow-hidden">
-              <img
-                src={p.img}
-                alt={p.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="p-6 text-center">
-              <h3 className="font-serif text-xl md:text-2xl mb-2">{p.title}</h3>
-              <span className="text-[#C08950] font-medium">Click me →</span>
-            </div>
-          </motion.a>
-        ))}
-      </div>
-    </PageWrapper>
-  );
-}
+  <!-- Placeholder for other content sections -->
+  <!-- EDUCATION, WORK, PORTFOLIO & LIFE sections go here -->
 
-/* -------------------------------------------------------------------------- */
-/* OUTSIDE OF WORK PAGE                                                       */
-/* -------------------------------------------------------------------------- */
-function LifePage() {
-  const hobbies = [
-    {
-      title: "Sketching",
-      img: "<!-- SKETCHING_IMAGE_URL -->",
-      desc: "TODO: add details here…",    },
-    {
-      title: "Music",
-      img: "<!-- MUSIC_IMAGE_URL -->",
-      desc: "TODO: add details here…",
-    },
-  ];
-
-  return (
-    <PageWrapper title="Outside of Work">
-      <div className="grid md:grid-cols-2 gap-12">
-        {hobbies.map((hobby, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 * i }}
-            className="space-y-6"
-          >
-            <div className="h-56 bg-gray-200 rounded-xl overflow-hidden">
-              <img
-                src={hobby.img}
-                alt={hobby.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <h3 className="font-serif text-2xl md:text-3xl">{hobby.title}</h3>
-            <p className="text-base md:text-lg text-gray-700">{hobby.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-    </PageWrapper>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/* ROOT COMPONENT                                                             */
-/* -------------------------------------------------------------------------- */
-export default function Portfolio() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/education" element={<EducationPage />} />
-        <Route path="/work" element={<WorkPage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/life" element={<LifePage />} />
-        {/* Fallback */}
-        <Route path="*" element={<Home />} />
-      </Routes>
-    </Router>
-  );
-}
-
+</body>
+</html>
