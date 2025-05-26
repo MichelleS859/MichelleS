@@ -15,56 +15,55 @@
 
   <style>
     :root {
-      --bg-color: #F5F4EF;
-      --text-color: #1F1F1F;
-      --accent-color: #C08950;
-      --hero-image: url('YOUR_HERO_IMAGE_URL');
-      --container-max: 1200px;
+      --bg: #F5F4EF;
+      --text: #1F1F1F;
+      --accent: #C08950;
+      --hero-bg: url('YOUR_HERO_IMAGE_URL');
+      --max-w: 1200px;
       --gap: 2rem;
     }
-    /* Reset & base */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Reset & Base */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
+      background: var(--bg);
+      color: var(--text);
       scroll-behavior: smooth;
       overflow-x: hidden;
     }
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
-    a { text-decoration: none; color: inherit; }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
 
-    /* Utility classes */
-    .container {
+    /* Layout Containers */
+    .ct {
       width: 90%;
-      max-width: var(--container-max);
+      max-width: var(--max-w);
       margin: 0 auto;
       padding: 0 var(--gap);
     }
-    .section {
-      padding: calc(var(--gap) * 4) 0;
-    }
-    .btn-link {
+    .sec { padding: calc(var(--gap) * 4) 0; }
+
+    /* Buttons */
+    .btn {
       display: inline-block;
       padding: 0.75rem 1.5rem;
-      border: 2px solid var(--accent-color);
+      border: 2px solid var(--accent);
       border-radius: 0.5rem;
-      color: var(--accent-color);
+      color: var(--accent);
       font-weight: 500;
-      transition: background-color 0.3s;
+      transition: background 0.3s;
     }
-    .btn-link:hover { background-color: rgba(192,137,80,0.1); }
+    .btn:hover { background: rgba(192, 137, 80, 0.1); }
 
-    /* Hero */
+    /* Hero Section */
     #hero {
       position: relative;
       height: 100vh;
-      background: var(--hero-image) center/cover no-repeat;
-      text-align: center;
+      background: var(--hero-bg) center/cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      text-align: center;
     }
     #hero::before,
     #hero::after {
@@ -72,155 +71,185 @@
       position: absolute;
       inset: 0;
     }
-    #hero::before {
-      background-color: rgba(0,0,0,0.5);
+    #hero::before { background: rgba(0, 0, 0, 0.5); }
+    #hero::after { background: linear-gradient(to bottom, transparent, var(--bg)); }
+    .hero .gap > * + * { margin-top: var(--gap); }
+    .title-hero { font-size: 4rem; color: white; }
+    .img-hero {
+      width: 14rem;
+      height: 14rem;
+      border: 4px solid white;
+      border-radius: 50%;
+      object-fit: cover;
     }
-    #hero::after {
-      background: linear-gradient(to bottom, transparent, var(--bg-color));
-    }
-    .hero-content > * + * { margin-top: var(--gap); }
-    .hero-title { font-size: 4rem; color: white; }
-    .hero-image { width: 14rem; height: 14rem; border: 4px solid white; border-radius: 50%; object-fit: cover; }
-    .hero-sub { font-size: 1.25rem; color: white; }
+    .sub-hero { font-size: 1.25rem; color: white; }
 
-    /* About */
-    #about { background-color: var(--bg-color); }
-    .about-grid { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
-    @media(min-width: 768px) {
-      .about-grid { grid-template-columns: 1fr 1fr; }
+    /* About Section */
+    #about { background: var(--bg); }
+    .grid-about {
+      display: grid;
+      gap: var(--gap);
     }
-    .about-img { width: 100%; border-radius: 1rem; object-fit: cover; }
-    .about-text {
+    @media(min-width: 768px) {
+      .grid-about { grid-template-columns: 1fr 1fr; }
+    }
+    .img-about { width: 100%; border-radius: 1rem; object-fit: cover; }
+    .text-about {
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease, transform 1s ease;
     }
-    .about-text.show { opacity: 1; transform: translateY(0); }
-    .about-title { font-size: 3rem; margin-bottom: var(--gap); }
-    .about-p { font-size: 1.125rem; line-height: 1.6; }
+    .text-about.show { opacity: 1; transform: translateY(0); }
+    .title-about { font-size: 3rem; margin-bottom: var(--gap); }
+    .p-about { font-size: 1.125rem; line-height: 1.6; }
 
     /* Navigation */
     #navigation { text-align: center; }
-    .nav-list { display: flex; flex-direction: column; gap: var(--gap); max-width: 20rem; margin: 0 auto; }
-    .nav-item { padding: 1rem; border: 2px solid transparent; border-radius: 0.75rem; transition: border-color 0.3s; }
-    .nav-item h3 { font-size: 1.5rem; }
-    .nav-item:hover { border-color: var(--accent-color); }
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      max-width: 20rem;
+      margin: 0 auto;
+    }
+    .nav-link {
+      padding: 1rem;
+      border: 2px solid transparent;
+      border-radius: 0.75rem;
+      transition: border-color 0.3s;
+    }
+    .nav-link:hover { border-color: var(--accent); }
+    .nav-link h3 { font-size: 1.5rem; }
 
-    /* Sections (Education, Work, etc.) */
-    .detail { display: none; }
-    .detail.active { display: block; }
-    .detail-header { display: flex; align-items: flex-start; gap: var(--gap); }
-    .detail-line { width: 0.5rem; background-color: var(--accent-color); animation: pulse 2s ease-in-out infinite; }
-    .detail-content { flex: 1; }
-    .detail-title { font-size: 2.5rem; margin-bottom: var(--gap); }
+    /* Detail Sections */
+    .detail-sec { display: none; }
+    .detail-sec.active { display: block; }
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--gap);
+    }
+    .line-detail {
+      width: 0.5rem;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .content-detail { flex: 1; }
+    .title-detail { font-size: 2.5rem; margin-bottom: var(--gap); }
 
     @keyframes pulse {
-      0%,100% { opacity: 1; }
+      0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
   </style>
 </head>
 <body>
-  <!-- Scripts -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ once: false, duration: 800, easing: 'ease-in-out', mirror: true });
-      // About reveal
-      const about = document.querySelector('.about-text');
-      new IntersectionObserver(([e]) => e.isIntersecting && about.classList.add('show'), { threshold: 0.3 }).observe(about);
-      // Nav clicks
+      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
+
       const sections = ['hero','about','navigation','education','work','portfolio','life'];
-      document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', e => {
-        e.preventDefault();
-        const target = btn.getAttribute('data-target');
-        sections.forEach(id => document.getElementById(id).classList.toggle('active', id===target));
-        document.getElementById(target).scrollIntoView({ behavior: 'smooth' });
-      }));
-      // Back buttons
-      document.querySelectorAll('.btn-back').forEach(btn => btn.addEventListener('click', e => {
-        e.preventDefault();
-        ['hero','about','navigation'].forEach(id => document.getElementById(id).classList.add('active'));
-        ['education','work','portfolio','life'].forEach(id => document.getElementById(id).classList.remove('active'));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }));
-      // Initialize view
-      ['hero','about','navigation'].forEach(id => document.getElementById(id).classList.add('active'));
+      const showBase = ['hero','about','navigation'];
+      showBase.forEach(id => document.getElementById(id).classList.add('active'));
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const target = link.getAttribute('data-target');
+          sections.forEach(id => document.getElementById(id)
+            .classList.toggle('active', id === target));
+          document.getElementById(target).scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+      document.querySelectorAll('.btn-back').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          sections.forEach(id => document.getElementById(id)
+            .classList.toggle('active', showBase.includes(id)));
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) document.querySelector('.text-about').classList.add('show');
+      }, { threshold: 0.3 }).observe(document.querySelector('.text-about'));
     });
   </script>
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-content container" data-aos="fade-up">
-      <h1 class="hero-title" data-aos="fade-down">Hi! I'm Michelle Shi.</h1>
-      <img src="YOUR_PROFILE_IMAGE_URL" alt="Portrait" class="hero-image" data-aos="zoom-in" data-aos-delay="300" />
-      <p class="hero-sub" data-aos="fade-up" data-aos-delay="600">Brief one–sentence headline that sums up who you are and what you do.</p>
+    <div class="hero container gap" data-aos="fade-up">
+      <h1 class="title-hero" data-aos="fade-down">Hi! I'm Michelle Shi.</h1>
+      <img src="YOUR_PROFILE_IMAGE_URL" alt="Portrait" class="img-hero" data-aos="zoom-in" data-aos-delay="300" />
+      <p class="sub-hero" data-aos="fade-up" data-aos-delay="600">Brief one–sentence headline that sums up who you are and what you do.</p>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="container about-grid">
-      <img src="YOUR_INTRO_IMAGE_URL" alt="About me" class="about-img" data-aos="fade-right" />
-      <div class="about-text" id="aboutContent">
-        <h2 class="about-title" data-aos="fade-left">About Me</h2>
-        <p class="about-p" data-aos="fade-left" data-aos-delay="200"><!-- TODO: Your self-introduction here --></p>
+  <section id="about" class="sec">
+    <div class="ct grid-about">
+      <img src="YOUR_INTRO_IMAGE_URL" alt="About me" class="img-about" data-aos="fade-right" />
+      <div class="text-about">
+        <h2 class="title-about" data-aos="fade-left">About Me</h2>
+        <p class="p-about" data-aos="fade-left" data-aos-delay="200"><!-- TODO: Your self-introduction here --></p>
       </div>
     </div>
   </section>
 
   <!-- NAVIGATION -->
-  <nav id="navigation" class="section">
-    <div class="container nav-list" data-aos="fade-up">
-      <a href="#" class="nav-item" data-target="education" data-aos="fade-left"> <h3>Education Background</h3> </a>
-      <a href="#" class="nav-item" data-target="work" data-aos="fade-left" data-aos-delay="200"> <h3>Work Experience</h3> </a>
-      <a href="#" class="nav-item" data-target="portfolio" data-aos="fade-left" data-aos-delay="400"> <h3>My Portfolios</h3> </a>
-      <a href="#" class="nav-item" data-target="life" data-aos="fade-left" data-aos-delay="600"> <h3>Outside of Work</h3> </a>
+  <nav id="navigation" class="sec">
+    <div class="ct nav-menu" data-aos="fade-up">
+      <a href="#" class="nav-link" data-target="education" data-aos="fade-left"> <h3>Education Background</h3> </a>
+      <a href="#" class="nav-link" data-target="work" data-aos="fade-left" data-aos-delay="200"> <h3>Work Experience</h3> </a>
+      <a href="#" class="nav-link" data-target="portfolio" data-aos="fade-left" data-aos-delay="400"> <h3>My Portfolios</h3> </a>
+      <a href="#" class="nav-link" data-target="life" data-aos="fade-left" data-aos-delay="600"> <h3>Outside of Work</h3> </a>
     </div>
   </nav>
 
   <!-- DETAIL SECTIONS -->
-  <section id="education" class="section detail" data-aos="fade-up">
-    <div class="container detail-header">
-      <div class="detail-line"></div>
-      <div class="detail-content">
-        <h2 class="detail-title">Education Background</h2>
+  <section id="education" class="sec detail-sec" data-aos="fade-up">
+    <div class="ct detail-header">
+      <div class="line-detail"></div>
+      <div class="content-detail">
+        <h2 class="title-detail">Education Background</h2>
         <!-- TODO: Milestones with images -->
       </div>
-      <a href="#" class="btn-link btn-back">Back</a>
+      <a href="#" class="btn btn-back">Back</a>
     </div>
   </section>
 
-  <section id="work" class="section detail" data-aos="fade-up">
-    <div class="container detail-header">
-      <div class="detail-line"></div>
-      <div class="detail-content">
-        <h2 class="detail-title">Work Experience</h2>
+  <section id="work" class="sec detail-sec" data-aos="fade-up">
+    <div class="ct detail-header">
+      <div class="line-detail"></div>
+      <div class="content-detail">
+        <h2 class="title-detail">Work Experience</h2>
         <!-- TODO: Experience with images -->
       </div>
-      <a href="#" class="btn-link btn-back">Back</a>
+      <a href="#" class="btn btn-back">Back</a>
     </div>
   </section>
 
-  <section id="portfolio" class="section detail" data-aos="fade-up">
-    <div class="container detail-header">
-      <div class="detail-line"></div>
-      <div class="detail-content">
-        <h2 class="detail-title">My Portfolios</h2>
+  <section id="portfolio" class="sec detail-sec" data-aos="fade-up">
+    <div class="ct detail-header">
+      <div class="line-detail"></div>
+      <div class="content-detail">
+        <h2 class="title-detail">My Portfolios</h2>
         <!-- TODO: Projects with images -->
       </div>
-      <a href="#" class="btn-link btn-back">Back</a>
+      <a href="#" class="btn btn-back">Back</a>
     </div>
   </section>
 
-  <section id="life" class="section detail" data-aos="fade-up">
-    <div class="container detail-header">
-      <div class="detail-line"></div>
-      <div class="detail-content">
-        <h2 class="detail-title">Outside of Work</h2>
+  <section id="life" class="sec detail-sec" data-aos="fade-up">
+    <div class="ct detail-header">
+      <div class="line-detail"></div>
+      <div class="content-detail">
+        <h2 class="title-detail">Outside of Work</h2>
         <!-- TODO: Hobbies with images -->
       </div>
-      <a href="#" class="btn-link btn-back">Back</a>
+      <a href="#" class="btn btn-back">Back</a>
     </div>
   </section>
 </body>
