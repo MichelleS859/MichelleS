@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,258 +7,279 @@
   <title>Your Name | Portfolio</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
 
-  <!-- TailwindCSS CDN -->
+  <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- AOS Scroll Animations -->
+  <!-- AOS Scroll Animations CSS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
   <style>
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    :root {
+      --bg: #F5F4EF;
+      --text: #1F1F1F;
+      --accent: #C08950;
+      --overlay: rgba(0, 0, 0, 0.5);
+      --pad: 4rem;
+      /* set your hero image URL here */
+      --hero-img: url('YOUR_HERO_IMAGE_URL');
+    }
 
-    /* Button underline animation */
-    .btn-underline {
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Layout wrapper */
+    .wrap {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: var(--pad);
+    }
+
+    /* Hero section */
+    .hero {
       position: relative;
-      display: inline-block;
-      overflow: hidden;
+      height: 100vh;
+      background: var(--overlay) center/cover no-repeat var(--hero-img);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
-    .btn-underline span {
-      position: relative;
-      z-index: 10;
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
-    .btn-underline::before,
-    .btn-underline::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: #C08950;
-      transition: width 0.8s ease;
+
+    .title {
+      font-size: 4rem;
+      color: #fff;
     }
-    .btn-underline::before { top: 0; left: 0; }
-    .btn-underline::after { bottom: 0; right: 0; }
-    .btn-underline:hover::before,
-    .btn-underline:hover::after {
+
+    .portrait {
+      width: 14rem;
+      height: 14rem;
+      border: 4px solid #fff;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    /* Intro section */
+    .intro {
+      background: var(--bg);
+    }
+
+    .grid-2 {
+      display: grid;
+      gap: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .intro-img {
       width: 100%;
+      border-radius: 1.5rem;
+      object-fit: cover;
     }
 
-    /* Magic line animation for "click to explore" */
-    .magic-link {
-      position: relative;
-      color: #C08950;
-      font-size: 1.125rem;
-      font-weight: 500;
-    }
-    .magic-link .magic-line {
-      position: absolute;
-      background: #C08950;
-    }
-    /* horizontal lines */
-    .magic-link .line-top,
-    .magic-link .line-bottom {
-      height: 2px;
-      width: 0;
-      transition: width 1s ease;
-    }
-    .magic-link .line-top { top: 0; left: 0; }
-    .magic-link .line-bottom { bottom: 0; right: 0; }
-    /* vertical lines */
-    .magic-link .line-left,
-    .magic-link .line-right {
-      width: 2px;
-      height: 0;
-      transition: height 1s ease;
-    }
-    .magic-link .line-left { top: 0; left: 0; }
-    .magic-link .line-right { bottom: 0; right: 0; }
-    .magic-link:hover .line-top,
-    .magic-link:hover .line-bottom {
-      width: 100%;
-    }
-    .magic-link:hover .line-left,
-    .magic-link:hover .line-right {
-      height: 100%;
-    }
-
-    /* About me vignette animation */
-    .about-text {
+    .intro-text {
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1.2s ease, transform 1.2s ease;
     }
-    .about-text.visible {
+
+    .intro-text.visible {
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Navigation cards */
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .nav-item {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      padding: var(--pad);
+      transition: box-shadow 0.3s;
+      text-decoration: none;
+      color: var(--text);
+      display: block;
+    }
+
+    .nav-item:hover {
+      box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-title {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Underline animation */
+    .magic {
+      position: relative;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .magic::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .magic:hover::after {
+      width: 100%;
+    }
+
+    /* Section display rules */
+    section {
+      display: none;
+    }
+
+    #hero,
+    #about,
+    #navigation,
+    section:target {
+      display: block;
+    }
   </style>
 </head>
-<body class="bg-[#F5F4EF] text-[#1F1F1F] overflow-x-hidden">
+<body>
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ once: true, duration: 1800, easing: 'ease-in-out' });
-
-      ['education','work','portfolio','life'].forEach(id => document.getElementById(id).classList.add('hidden'));
-
-      document.querySelectorAll('#navigation a').forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          ['hero','about','navigation'].forEach(i => document.getElementById(i).classList.add('hidden'));
-          const tgt = document.querySelector(link.getAttribute('href'));
-          tgt.classList.remove('hidden');
-          tgt.scrollIntoView({ behavior: 'smooth' });
-        });
-      });
-
-      document.querySelectorAll('.back-home').forEach(btn => {
-        btn.addEventListener('click', e => {
-          e.preventDefault();
-          ['hero','about','navigation'].forEach(i => document.getElementById(i).classList.remove('hidden'));
-          ['education','work','portfolio','life'].forEach(i => document.getElementById(i).classList.add('hidden'));
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      });
-
-      // About me animation on scroll
-      const about = document.getElementById('aboutText');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => entry.isIntersecting && about.classList.add('visible'));
-      }, { threshold: 0.3 });
-      observer.observe(about);
+      AOS.init({ once: true, duration: 800, easing: 'ease-in-out' });
+      const intro = document.querySelector('.intro-text');
+      new IntersectionObserver(
+        ([entry]) => entry.isIntersecting && intro.classList.add('visible'),
+        { threshold: 0.3 }
+      ).observe(intro);
     });
   </script>
 
-  <!-- HERO -->
-  <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden"
-    style="background-image: url('<!-- HERO_BACKGROUND_IMAGE_URL -->'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-50 pointer-events-none"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#F5F4EF]/30 to-[#F5F4EF] pointer-events-none"></div>
-    <div class="relative z-20 space-y-10 px-4">
-      <h1 class="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-serif" data-aos="fade-down">
-        Hi, I'm Michelle!
-      </h1>
-      <img src="<!-- PROFILE_IMAGE_URL -->" alt="Portrait"
-        class="mx-auto w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white shadow-2xl"
-        data-aos="zoom-in" data-aos-delay="400" />
-      <p class="text-white text-xl md:text-2xl" data-aos="fade-up" data-aos-delay="800">
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="wrap hero-content" data-aos="fade-up">
+      <h1 class="title">Hi! I'm Michelle Shi.</h1>
+      <img
+        src="YOUR_PROFILE_IMAGE_URL"
+        alt="Portrait"
+        class="portrait"
+        data-aos="zoom-in"
+        data-aos-delay="300"
+      />
+      <p class="subtitle" data-aos="fade-up" data-aos-delay="600">
         Brief one–sentence headline that sums up who you are and what you do.
       </p>
     </div>
   </section>
 
-  <!-- ABOUT ME -->
-  <section id="about" class="py-96 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] overflow-hidden">
-    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-      <div class="rounded-3xl overflow-hidden shadow-2xl h-[34rem]" data-aos="fade-right">
-        <img src="<!-- SELF_INTRO_IMAGE_URL -->" alt="About me" class="w-full h-full object-cover" />
-      </div>
-      <div id="aboutText" class="about-text">
-        <h2 class="text-5xl font-serif mb-6">About Me</h2>
-        <p class="text-xl lg:text-2xl text-gray-800 leading-relaxed">
-          <!-- TODO: Place your self-introduction paragraph here -->
-        </p>
+  <!-- About -->
+  <section id="about" class="intro wrap">
+    <div class="grid-2">
+      <img
+        src="YOUR_INTRO_IMAGE_URL"
+        alt="About me"
+        class="intro-img"
+        data-aos="fade-right"
+      />
+      <div class="intro-text">
+        <h2 data-aos="fade-left">About Me</h2>
+        <p>Your self-introduction here</p>
       </div>
     </div>
   </section>
 
-  <!-- NAV -->
-  <section id="navigation" class="py-96 px-8 md:px-16 lg:px-32" data-aos="fade-up">
-    <div class="max-w-lg mx-auto flex flex-col space-y-16">
-      <a href="#education" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]">
-        <h3 class="text-3xl font-semibold whitespace-pre-line">Education Background</h3>
-        <div class="mt-4 magic-link">click to explore →
-          <div class="magic-line line-top"></div>
-          <div class="magic-line line-right"></div>
-          <div class="magic-line line-bottom"></div>
-          <div class="magic-line line-left"></div>
-        </div>
+  <!-- Navigation -->
+  <section id="navigation" class="wrap" data-aos="fade-up">
+    <div class="nav-list">
+      <a href="#education" class="nav-item" data-aos="fade-right">
+        <h3 class="nav-title">Education Background</h3>
+        <span class="magic">click to explore →</span>
       </a>
-      <a href="#work" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="200">
-        <h3 class="text-3xl font-semibold whitespace-pre-line">Work Experience</h3>
-        <div class="mt-4 magic-link">click to explore →
-          <div class="magic-line line-top"></div>
-          <div class="magic-line line-right"></div>
-          <div class="magic-line line-bottom"></div>
-          <div class="magic-line line-left"></div>
-        </div>
+      <a href="#work" class="nav-item" data-aos="fade-right" data-aos-delay="200">
+        <h3 class="nav-title">Work Experience</h3>
+        <span class="magic">click to explore →</span>
       </a>
-      <a href="#portfolio" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="400">
-        <h3 class="text-3xl font-semibold whitespace-pre-line">Portfolios</h3>
-        <div class="mt-4 magic-link">click to explore →
-          <div class="magic-line line-top"></div>
-          <div class="magic-line line-right"></div>
-          <div class="magic-line line-bottom"></div>
-          <div class="magic-line line-left"></div>
-        </div>
+      <a href="#portfolio" class="nav-item" data-aos="fade-right" data-aos-delay="400">
+        <h3 class="nav-title">Portfolios</h3>
+        <span class="magic">click to explore →</span>
       </a>
-      <a href="#life" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="600">
-        <h3 class="text-3xl font-semibold whitespace-pre-line">Outside of Work</h3>
-        <div class="mt-4 magic-link">click to explore →
-          <div class="magic-line line-top"></div>
-          <div class="magic-line line-right"></div>
-          <div class="magic-line line-bottom"></div>
-          <div class="magic-line line-left"></div>
-        </div>
+      <a href="#life" class="nav-item" data-aos="fade-right" data-aos-delay="600">
+        <h3 class="nav-title">Outside of Work</h3>
+        <span class="magic">click to explore →</span>
       </a>
     </div>
   </section>
 
-  <!-- DETAIL SECTIONS -->
-  <section id="education" class="py-128 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] hidden" data-aos="fade-up">
-    <div class="max-w-5xl mx-auto flex items-start space-x-12">
-      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
-      <div class="flex-1">
-        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Education Background</h2>
-        <!-- TODO: Add your education milestones with images here -->
-      </div>
-      <div class="flex-shrink-0 self-start">
-        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
-      </div>
-    </div>
+  <!-- Detail Sections -->
+  <section id="education" class="wrap" data-aos="fade-up">
+    <h2>Education Background</h2>
+    <!-- your milestones here -->
+    <p><a href="#hero" class="magic">Back to Top</a></p>
   </section>
 
-  <section id="work" class="py-128 px-8 md:px-16 lg:px-32 bg-white hidden" data-aos="fade-up">
-    <div class="max-w-5xl mx-auto flex items-start space-x-12">
-      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
-      <div class="flex-1">
-        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Work Experience</h2>
-        <!-- TODO: Add your work experience content with images here -->
-      </div>
-      <div class="flex-shrink-0 self-start">
-        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
-      </div>
-    </div>
+  <section id="work" class="wrap" data-aos="fade-up">
+    <h2>Work Experience</h2>
+    <!-- your roles here -->
+    <p><a href="#hero" class="magic">Back to Top</a></p>
   </section>
 
-  <section id="portfolio" class="py-128 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] hidden" data-aos="fade-up">
-    <div class="max-w-5xl mx-auto flex items-start space-x-12">
-      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
-      <div class="flex-1">
-        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Portfolios</h2>
-        <!-- TODO: Add your portfolio projects with images here -->
-      </div>
-      <div class="flex-shrink-0 self-start">
-        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
-      </div>
-    </div>
+  <section id="portfolio" class="wrap" data-aos="fade-up">
+    <h2>Portfolios</h2>
+    <!-- your projects here -->
+    <p><a href="#hero" class="magic">Back to Top</a></p>
   </section>
 
-  <section id="life" class="py-128 px-8 md:px-16 lg:px-32 bg-white hidden" data-aos="fade-up">
-    <div class="max-w-5xl mx-auto flex items-start space-x-12">
-      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
-      <div class="flex-1">
-        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Outside of Work</h2>
-        <!-- TODO: Add your hobbies with images here -->
-      </div>
-      <div class="flex-shrink-0 self-start">
-        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
-      </div>
-    </div>
+  <section id="life" class="wrap" data-aos="fade-up">
+    <h2>Outside of Work</h2>
+    <!-- your hobbies here -->
+    <p><a href="#hero" class="magic">Back to Top</a></p>
   </section>
-
 </body>
 </html>
