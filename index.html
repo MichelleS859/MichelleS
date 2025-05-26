@@ -20,140 +20,243 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+    /* Button underline animation */
+    .btn-underline {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+    }
+    .btn-underline span {
+      position: relative;
+      z-index: 10;
+    }
+    .btn-underline::before,
+    .btn-underline::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #C08950;
+      transition: width 0.8s ease;
+    }
+    .btn-underline::before { top: 0; left: 0; }
+    .btn-underline::after { bottom: 0; right: 0; }
+    .btn-underline:hover::before,
+    .btn-underline:hover::after {
+      width: 100%;
+    }
+
+    /* Magic line animation for "click to explore" */
+    .magic-link {
+      position: relative;
+      color: #C08950;
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+    .magic-link .magic-line {
+      position: absolute;
+      background: #C08950;
+    }
+    /* horizontal lines */
+    .magic-link .line-top,
+    .magic-link .line-bottom {
+      height: 2px;
+      width: 0;
+      transition: width 1s ease;
+    }
+    .magic-link .line-top { top: 0; left: 0; }
+    .magic-link .line-bottom { bottom: 0; right: 0; }
+    /* vertical lines */
+    .magic-link .line-left,
+    .magic-link .line-right {
+      width: 2px;
+      height: 0;
+      transition: height 1s ease;
+    }
+    .magic-link .line-left { top: 0; left: 0; }
+    .magic-link .line-right { bottom: 0; right: 0; }
+    .magic-link:hover .line-top,
+    .magic-link:hover .line-bottom {
+      width: 100%;
+    }
+    .magic-link:hover .line-left,
+    .magic-link:hover .line-right {
+      height: 100%;
+    }
+
+    /* About me vignette animation */
+    .about-text {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+    .about-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
-<body class="bg-[#F5F4EF] text-[#1F1F1F]">
+<body class="bg-[#F5F4EF] text-[#1F1F1F] overflow-x-hidden">
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      AOS.init({ once: true, duration: 800 });
+      AOS.init({ once: true, duration: 1800, easing: 'ease-in-out' });
 
-      // Hide detail sections initially
-      ['education','work','portfolio','life'].forEach(id => {
-        document.getElementById(id).classList.add('hidden');
-      });
+      ['education','work','portfolio','life'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
-      // Nav link handlers
       document.querySelectorAll('#navigation a').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
-          // Hide hero, about, nav
-          ['hero','about','navigation'].forEach(id => document.getElementById(id).classList.add('hidden'));
-          // Show target
+          ['hero','about','navigation'].forEach(i => document.getElementById(i).classList.add('hidden'));
           const tgt = document.querySelector(link.getAttribute('href'));
           tgt.classList.remove('hidden');
           tgt.scrollIntoView({ behavior: 'smooth' });
         });
       });
 
-      // Back to home handlers
       document.querySelectorAll('.back-home').forEach(btn => {
         btn.addEventListener('click', e => {
           e.preventDefault();
-          // Show hero, about, nav; hide others
-          ['hero','about','navigation'].forEach(id => document.getElementById(id).classList.remove('hidden'));
-          ['education','work','portfolio','life'].forEach(id => document.getElementById(id).classList.add('hidden'));
+          ['hero','about','navigation'].forEach(i => document.getElementById(i).classList.remove('hidden'));
+          ['education','work','portfolio','life'].forEach(i => document.getElementById(i).classList.add('hidden'));
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
+
+      // About me animation on scroll
+      const about = document.getElementById('aboutText');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.isIntersecting && about.classList.add('visible'));
+      }, { threshold: 0.3 });
+      observer.observe(about);
     });
   </script>
 
-  <!-- HERO SECTION -->
+  <!-- HERO -->
   <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden"
     style="background-image: url('<!-- HERO_BACKGROUND_IMAGE_URL -->'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-black bg-opacity-40 pointer-events-none"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#F5F4EF]/20 to-[#F5F4EF] pointer-events-none"></div>
-
-    <div class="relative z-20 space-y-8 px-4">
-      <h1 class="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif" data-aos="fade-up">
+    <div class="absolute inset-0 bg-black bg-opacity-50 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#F5F4EF]/30 to-[#F5F4EF] pointer-events-none"></div>
+    <div class="relative z-20 space-y-10 px-4">
+      <h1 class="text-white text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-serif" data-aos="fade-down">
         Your Name Here
       </h1>
-      <img src="</IMG_6325.JPG>" alt="Portrait"
-        class="mx-auto w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-white shadow-lg"
-        data-aos="zoom-in" data-aos-delay="300" />
-      <p class="text-white text-lg md:text-xl" data-aos="fade-up" data-aos-delay="600">
+      <img src="<!-- PROFILE_IMAGE_URL -->" alt="Portrait"
+        class="mx-auto w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white shadow-2xl"
+        data-aos="zoom-in" data-aos-delay="400" />
+      <p class="text-white text-xl md:text-2xl" data-aos="fade-up" data-aos-delay="800">
         Brief one–sentence headline that sums up who you are and what you do.
       </p>
     </div>
   </section>
 
-  <!-- SELF-INTRO SECTION -->
-  <section id="about" class="py-64 px-6 md:px-12 bg-[#F5F4EF]" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-      <div class="rounded-3xl overflow-hidden shadow-md bg-gray-200 h-96 md:h-[32rem]" data-aos="fade-right">
+  <!-- ABOUT ME -->
+  <section id="about" class="py-96 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] overflow-hidden">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div class="rounded-3xl overflow-hidden shadow-2xl h-[34rem]" data-aos="fade-right">
         <img src="<!-- SELF_INTRO_IMAGE_URL -->" alt="About me" class="w-full h-full object-cover" />
       </div>
-      <div data-aos="fade-left">
-        <h2 class="text-4xl font-serif mb-4">About Me</h2>
-        <p class="text-lg md:text-xl text-gray-800 leading-relaxed">
+      <div id="aboutText" class="about-text">
+        <h2 class="text-5xl font-serif mb-6">About Me</h2>
+        <p class="text-xl lg:text-2xl text-gray-800 leading-relaxed">
           <!-- TODO: Place your self-introduction paragraph here -->
         </p>
       </div>
     </div>
   </section>
 
-  <!-- VERTICAL NAVIGATION CARDS -->
-  <section id="navigation" class="py-64 px-6 md:px-12" data-aos="fade-up">
-    <div class="max-w-md mx-auto flex flex-col space-y-12">
-      <a href="#education" class="block bg-white/70 backdrop-blur rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
-        <h3 class="text-2xl font-semibold whitespace-pre-line">Education
-        Background</h3>
-        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+  <!-- NAV -->
+  <section id="navigation" class="py-96 px-8 md:px-16 lg:px-32" data-aos="fade-up">
+    <div class="max-w-lg mx-auto flex flex-col space-y-16">
+      <a href="#education" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]">
+        <h3 class="text-3xl font-semibold whitespace-pre-line">Education Background</h3>
+        <div class="mt-4 magic-link">click to explore →
+          <div class="magic-line line-top"></div>
+          <div class="magic-line line-right"></div>
+          <div class="magic-line line-bottom"></div>
+          <div class="magic-line line-left"></div>
+        </div>
       </a>
-      <a href="#work" class="block bg-white/70 backdrop-blur rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos-delay="100">
-        <h3 class="text-2xl font-semibold whitespace-pre-line">Work
-        Experience</h3>
-        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      <a href="#work" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="200">
+        <h3 class="text-3xl font-semibold whitespace-pre-line">Work Experience</h3>
+        <div class="mt-4 magic-link">click to explore →
+          <div class="magic-line line-top"></div>
+          <div class="magic-line line-right"></div>
+          <div class="magic-line line-bottom"></div>
+          <div class="magic-line line-left"></div>
+        </div>
       </a>
-      <a href="#portfolio" class="block bg-white/70 backdrop-blur rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos-delay="200">
-        <h3 class="text-2xl font-semibold whitespace-pre-line">Portfolios</h3>
-        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      <a href="#portfolio" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="400">
+        <h3 class="text-3xl font-semibold whitespace-pre-line">Portfolios</h3>
+        <div class="mt-4 magic-link">click to explore →
+          <div class="magic-line line-top"></div>
+          <div class="magic-line line-right"></div>
+          <div class="magic-line line-bottom"></div>
+          <div class="magic-line line-left"></div>
+        </div>
       </a>
-      <a href="#life" class="block bg-white/70 backdrop-blur rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos-delay="300">
-        <h3 class="text-2xl font-semibold whitespace-pre-line">Outside
-        of Work</h3>
-        <span class="text-[#C08950] mt-2 inline-block">click to explore →</span>
+      <a href="#life" class="bg-white/80 backdrop-blur-lg rounded-3xl p-12 shadow-2xl transition hover:shadow-[0_0_25px_rgba(0,0,0,0.1)]" data-aos-delay="600">
+        <h3 class="text-3xl font-semibold whitespace-pre-line">Outside of Work</h3>
+        <div class="mt-4 magic-link">click to explore →
+          <div class="magic-line line-top"></div>
+          <div class="magic-line line-right"></div>
+          <div class="magic-line line-bottom"></div>
+          <div class="magic-line line-left"></div>
+        </div>
       </a>
     </div>
   </section>
 
-  <!-- EDUCATION SECTION -->
-  <section id="education" class="py-64 px-6 md:px-12 bg-[#F5F4EF] hidden" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <h2 class="text-4xl font-serif mb-4">Education Background</h2>
-      <!-- TODO: Add your education milestones -->
-      <p class="text-lg text-gray-700">Bachelor Degree – Nanjing Agricultural University (…)</p>
-      <a href="#" class="back-home inline-block mt-6 px-6 py-3 bg-[#C08950] text-white rounded-full shadow hover:bg-[#a3703b] transition">Back to Top</a>
+  <!-- DETAIL SECTIONS -->
+  <section id="education" class="py-128 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] hidden" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto flex items-start space-x-12">
+      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+      <div class="flex-1">
+        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Education Background</h2>
+        <!-- TODO: Add your education milestones with images here -->
+      </div>
+      <div class="flex-shrink-0 self-start">
+        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
+      </div>
     </div>
   </section>
 
-  <!-- WORK SECTION -->
-  <section id="work" class="py-64 px-6 md:px-12 bg-white hidden" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <h2 class="text-4xl font-serif mb-4">Work Experience</h2>
-      <!-- TODO: Add your work experience content -->
-      <p class="text-lg text-gray-700">Media Insight Analyst – Ebiquity …</p>
-      <a href="#" class="back-home inline-block mt-6 px-6 py-3 bg-[#C08950] text-white rounded-full shadow hover:bg-[#a3703b] transition">Back to Top</a>
+  <section id="work" class="py-128 px-8 md:px-16 lg:px-32 bg-white hidden" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto flex items-start space-x-12">
+      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+      <div class="flex-1">
+        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Work Experience</h2>
+        <!-- TODO: Add your work experience content with images here -->
+      </div>
+      <div class="flex-shrink-0 self-start">
+        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
+      </div>
     </div>
   </section>
 
-  <!-- PORTFOLIO SECTION -->
-  <section id="portfolio" class="py-64 px-6 md:px-12 bg-[#F5F4EF] hidden" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <h2 class="text-4xl font-serif mb-4">Portfolios</h2>
-      <!-- TODO: Add your portfolio projects -->
-      <p class="text-lg text-gray-700">Trip.com Customer Churn Analysis …</p>
-      <a href="#" class="back-home inline-block mt-6 px-6 py-3 bg-[#C08950] text-white rounded-full shadow hover:bg-[#a3703b] transition">Back to Top</a>
+  <section id="portfolio" class="py-128 px-8 md:px-16 lg:px-32 bg-[#F5F4EF] hidden" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto flex items-start space-x-12">
+      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+      <div class="flex-1">
+        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Portfolios</h2>
+        <!-- TODO: Add your portfolio projects with images here -->
+      </div>
+      <div class="flex-shrink-0 self-start">
+        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
+      </div>
     </div>
   </section>
 
-  <!-- LIFE SECTION -->
-  <section id="life" class="py-64 px-6 md:px-12 bg-white hidden" data-aos="fade-up">
-    <div class="max-w-4xl mx-auto space-y-8">
-      <h2 class="text-4xl font-serif mb-4">Outside of Work</h2>
-      <!-- TODO: Add your hobbies -->
-      <p class="text-lg text-gray-700">Sketching & Music …</p>
-      <a href="#" class="back-home inline-block mt-6 px-6 py-3 bg-[#C08950] text-white rounded-full shadow hover:bg-[#a3703b] transition">Back to Top</a>
+  <section id="life" class="py-128 px-8 md:px-16 lg:px-32 bg-white hidden" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto flex items-start space-x-12">
+      <div class="w-2 bg-[#C08950] h-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+      <div class="flex-1">
+        <h2 class="text-6xl font-serif mb-8" data-aos="fade-right">Outside of Work</h2>
+        <!-- TODO: Add your hobbies with images here -->
+      </div>
+      <div class="flex-shrink-0 self-start">
+        <a href="#" class="back-home btn-underline px-10 py-5 bg-transparent text-[#C08950] text-xl font-semibold rounded-full">Back to Top</a>
+      </div>
     </div>
   </section>
 
