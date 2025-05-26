@@ -20,63 +20,74 @@
       --accent: #C08950;
       --hero-img: url('YOUR_HERO_IMAGE_URL');
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
-    h1,h2,h3 { font-family: 'Playfair Display', serif; }
-    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s, transform 1s; }
-    .reveal.show { opacity:1; transform: translateY(0); }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      scroll-behavior: smooth;
+    }
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="overflow-x-hidden">
   <!-- AOS JS -->
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    // Manage page sections
     const pages = ['hero','about','navigation','education','work','portfolio','life'];
-    function showPage(id) {
+    function showPage(id, push=true) {
       pages.forEach(p => document.getElementById(p).classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
       AOS.refresh();
+      if(push) history.pushState({page:id}, '', '#'+id);
     }
     document.addEventListener('DOMContentLoaded', () => {
-      // init AOS: animate on scroll up & down
-      AOS.init({ once: false, duration: 800, easing: 'ease-in-out' });
-      // reveal about text
-      const intro = document.getElementById('aboutContent');
-      new IntersectionObserver(([e]) => e.isIntersecting && intro.classList.add('show'), { threshold: 0.2 }).observe(intro);
-      // nav links
+      AOS.init({ once: false, duration: 800, easing: 'ease-in-out', mirror:true });
+      // About section reveal
+      const aboutObs = new IntersectionObserver(([e]) => e.isIntersecting && document.getElementById('aboutContent').classList.add('show'), { threshold: 0.3 });
+      aboutObs.observe(document.getElementById('aboutContent'));
+      // Nav links
       document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
-          const id = link.dataset.target;
-          history.pushState({page:id}, '', '#'+id);
-          showPage(id);
+          showPage(link.dataset.target);
         });
       });
-      // back/forward browser
+      // Browser back/forward
       window.addEventListener('popstate', () => {
         const id = location.hash.replace('#','') || 'hero';
-        showPage(pages.includes(id) ? id : 'hero');
+        showPage(pages.includes(id)? id : 'hero', false);
       });
-      // initial load
+      // Initial
       const start = location.hash.replace('#','') || 'hero';
-      showPage(pages.includes(start)? start : 'hero');
+      showPage(pages.includes(start)? start : 'hero', false);
     });
   </script>
 
   <!-- HERO -->
-  <section id="hero" class="hero-bg relative h-screen flex items-center justify-center text-center">
+  <section id="hero" class="hero-bg relative h-screen flex items-center justify-center text-center overflow-hidden">
     <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--bg)]"></div>
-    <div class="relative z-10 container mx-auto px-4 text-white space-y-8" data-aos="fade-up">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 space-y-8" data-aos="fade-up">
       <h1 class="text-7xl font-serif">Hi! I'm Michelle Shi.</h1>
       <img src="YOUR_PROFILE_IMAGE_URL" alt="Portrait" class="mx-auto w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white shadow-xl" data-aos="zoom-in" data-aos-delay="300" />
       <p class="text-2xl" data-aos="fade-up" data-aos-delay="600">Brief one–sentence headline that sums up who you are and what you do.</p>
     </div>
   </section>
 
-  <!-- ABOUT: full-page length -->
-  <section id="about" class="hidden bg-[var(--bg)] min-h-screen py-64">
-    <div class="container mx-auto px-4 md:px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
+  <!-- ABOUT: full-page -->
+  <section id="about" class="hidden bg-[var(--bg)] min-h-screen py-32">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-32 items-center">
       <img src="YOUR_INTRO_IMAGE_URL" alt="About me" class="w-full h-auto rounded-2xl shadow-lg" data-aos="fade-right" />
       <div id="aboutContent" class="reveal">
         <h2 class="text-6xl font-serif mb-6" data-aos="fade-left">About Me</h2>
@@ -85,57 +96,57 @@
     </div>
   </section>
 
-  <!-- NAVIGATION: elegant shorter buttons -->
-  <section id="navigation" class="hidden py-40">
-    <div class="container mx-auto px-4 flex flex-col items-end space-y-6" data-aos="fade-up">
-      <a href="#education" class="nav-link px-4 py-2 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-target="education">
-        <h3 class="text-3xl font-semibold">Education Background</h3>
+  <!-- NAVIGATION: shorter elegant buttons -->
+  <section id="navigation" class="hidden py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-end space-y-4" data-aos="fade-up">
+      <a href="#education" class="nav-link px-3 py-1.5 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-target="education">
+        <h3 class="text-2xl font-semibold">Education Background</h3>
       </a>
-      <a href="#work" class="nav-link px-4 py-2 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="200" data-target="work">
-        <h3 class="text-3xl font-semibold">Work Experience</h3>
+      <a href="#work" class="nav-link px-3 py-1.5 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="200" data-target="work">
+        <h3 class="text-2xl font-semibold">Work Experience</h3>
       </a>
-      <a href="#portfolio" class="nav-link px-4 py-2 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="400" data-target="portfolio">
-        <h3 class="text-3xl font-semibold">My portfolios</h3>
+      <a href="#portfolio" class="nav-link px-3 py-1.5 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="400" data-target="portfolio">
+        <h3 class="text-2xl font-semibold">My Portfolios</h3>
       </a>
-      <a href="#life" class="nav-link px-4 py-2 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="600" data-target="life">
-        <h3 class="text-3xl font-semibold">Outside of Work</h3>
+      <a href="#life" class="nav-link px-3 py-1.5 border-2 border-transparent hover:border-[var(--accent)] rounded-lg transition" data-aos="fade-left" data-aos-delay="600" data-target="life">
+        <h3 class="text-2xl font-semibold">Outside of Work</h3>
       </a>
     </div>
   </section>
 
   <!-- EDUCATION -->
-  <section id="education" class="hidden py-40 bg-[var(--bg)]" data-aos="fade-up">
-    <div class="container mx-auto px-4 space-y-12">
+  <section id="education" class="hidden py-20 bg-[var(--bg)]" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       <h2 class="text-5xl font-serif">Education Background</h2>
       <!-- TODO: Milestones -->
-      <button onclick="showPage('navigation')" class="inline-block mt-8 px-4 py-2 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
+      <button onclick="history.back()" class="inline-block mt-8 px-3 py-1.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
     </div>
   </section>
 
   <!-- WORK -->
-  <section id="work" class="hidden py-40 bg-[var(--bg)]" data-aos="fade-up">
-    <div class="container mx-auto px-4 space-y-12">
+  <section id="work" class="hidden py-20 bg-[var(--bg)]" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       <h2 class="text-5xl font-serif">Work Experience</h2>
       <!-- TODO: Experience -->
-      <button onclick="showPage('navigation')" class="inline-block mt-8 px-4 py-2 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
+      <button onclick="history.back()" class="inline-block mt-8 px-3 py-1.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
     </div>
   </section>
 
   <!-- PORTFOLIO -->
-  <section id="portfolio" class="hidden py-40 bg-[var(--bg)]" data-aos="fade-up">
-    <div class="container mx-auto px-4 space-y-12">
-      <h2 class="text-5xl font-serif">My portfolios</h2>
+  <section id="portfolio" class="hidden py-20 bg-[var(--bg)]" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <h2 class="text-5xl font-serif">My Portfolios</n      </h2>
       <!-- TODO: Projects -->
-      <button onclick="showPage('navigation')" class="inline-block mt-8 px-4 py-2 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
+      <button onclick="history.back()" class="inline-block mt-8 px-3 py-1.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
     </div>
   </section>
 
   <!-- LIFE -->
-  <section id="life" class="hidden py-40 bg-[var(--bg)]" data-aos="fade-up">
-    <div class="container mx-auto px-4 space-y-12">
+  <section id="life" class="hidden py-20 bg-[var(--bg)]" data-aos="fade-up">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       <h2 class="text-5xl font-serif">Outside of Work</h2>
       <!-- TODO: Hobbies -->
-      <button onclick="showPage('navigation')" class="inline-block mt-8 px-4 py-2 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
+      <button onclick="history.back()" class="inline-block mt-8 px-3 py-1.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-lg">Back</button>
     </div>
   </section>
 </body>
